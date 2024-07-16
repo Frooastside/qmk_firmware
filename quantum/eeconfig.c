@@ -23,6 +23,8 @@ void dynamic_keymap_reset(void);
 void dynamic_keymap_macro_reset(void);
 #endif
 
+_Static_assert((intptr_t)EECONFIG_HANDEDNESS == 14, "EEPROM handedness offset is incorrect");
+
 /** \brief eeconfig enable
  *
  * FIXME: needs doc
@@ -48,7 +50,7 @@ __attribute__((weak)) void eeconfig_init_kb(void) {
  */
 void eeconfig_init_quantum(void) {
 #if defined(EEPROM_DRIVER)
-    eeprom_driver_erase();
+    eeprom_driver_format(false);
 #endif
 
     eeprom_update_word(EECONFIG_MAGIC, EECONFIG_MAGIC_NUMBER);
@@ -58,14 +60,12 @@ void eeconfig_init_quantum(void) {
     // Enable oneshot and autocorrect by default: 0b0001 0100 0000 0000
     eeprom_update_word(EECONFIG_KEYMAP, 0x1400);
     eeprom_update_byte(EECONFIG_BACKLIGHT, 0);
-    eeprom_update_byte(EECONFIG_AUDIO, 0xFF); // On by default
+    eeprom_update_byte(EECONFIG_AUDIO, 0);
     eeprom_update_dword(EECONFIG_RGBLIGHT, 0);
     eeprom_update_byte(EECONFIG_RGBLIGHT_EXTENDED, 0);
-    eeprom_update_byte(EECONFIG_VELOCIKEY, 0);
     eeprom_update_byte(EECONFIG_UNICODEMODE, 0);
     eeprom_update_byte(EECONFIG_STENOMODE, 0);
-    uint64_t dummy = 0;
-    eeprom_update_block(&dummy, EECONFIG_RGB_MATRIX, sizeof(uint64_t));
+    eeprom_write_qword(EECONFIG_RGB_MATRIX, 0);
     eeprom_update_dword(EECONFIG_HAPTIC, 0);
 #if defined(HAPTIC_ENABLE)
     haptic_reset();
@@ -115,7 +115,7 @@ void eeconfig_enable(void) {
  */
 void eeconfig_disable(void) {
 #if defined(EEPROM_DRIVER)
-    eeprom_driver_erase();
+    eeprom_driver_format(false);
 #endif
     eeprom_update_word(EECONFIG_MAGIC, EECONFIG_MAGIC_NUMBER_OFF);
 }

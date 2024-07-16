@@ -42,7 +42,6 @@
 #include "action_layer.h"
 #include "eeconfig.h"
 #include "bootloader.h"
-#include "bootmagic.h"
 #include "timer.h"
 #include "sync_timer.h"
 #include "gpio.h"
@@ -56,6 +55,12 @@
 #include "suspend.h"
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#ifdef BOOTMAGIC_ENABLE
+#    include "bootmagic.h"
+#endif
 
 #ifdef DEFERRED_EXEC_ENABLE
 #    include "deferred_exec.h"
@@ -235,6 +240,10 @@ extern layer_state_t layer_state;
 #    include "process_repeat_key.h"
 #endif
 
+#ifdef OS_DETECTION_ENABLE
+#    include "os_detection.h"
+#endif
+
 void set_single_persistent_default_layer(uint8_t default_layer);
 
 #define IS_LAYER_ON(layer) layer_state_is(layer)
@@ -257,8 +266,8 @@ void     post_process_record_user(uint16_t keycode, keyrecord_t *record);
 void reset_keyboard(void);
 void soft_reset_keyboard(void);
 
-void startup_user(void);
-void shutdown_user(void);
+bool shutdown_kb(bool jump_to_bootloader);
+bool shutdown_user(bool jump_to_bootloader);
 
 void register_code16(uint16_t code);
 void unregister_code16(uint16_t code);
