@@ -1,10 +1,10 @@
-# frooastboard/a600
+# Frooastboard A600
 
 ![frooastboard/a600](imgur.com image replace me!)
 
 *A short description of the keyboard/project*
 
-* Keyboard Maintainer: [frooastside](https://github.com/frooastside)
+* Keyboard Maintainer: [Frooastside](https://github.com/frooastside)
 * Hardware Supported: *The PCBs, controllers supported*
 * Hardware Availability: *Links to where you can find this hardware*
 
