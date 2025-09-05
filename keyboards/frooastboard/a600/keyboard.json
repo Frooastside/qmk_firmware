@@ -1,13 +1,11 @@
 {
     "manufacturer": "Frooastside",
-    "keyboard_name": "Frooastboard A600",
+    "keyboard_name": "Apollo Computer A6000",
     "maintainer": "Frooastside",
     "bootloader": "rp2040",
     "diode_direction": "COL2ROW",
     "features": {
         "bootmagic": true,
-        "command": false,
-        "console": false,
         "extrakey": false,
         "mousekey": false,
         "nkro": true,
